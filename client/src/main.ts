@@ -15,7 +15,7 @@ world.init();
 
 let paused = false;
 
-const pausedGameText = new Text("Jogo pausado", {
+const pausedGameText = new Text("Jogo pausado (aperte P)", {
   fontSize: 18,
   fill: 0xcfc547,
   dropShadow: true,
@@ -30,17 +30,24 @@ pausedGameText.y = 15;
 pausedGameText.visible = false;
 app.stage.addChild(pausedGameText);
 
+const setPauseGame = (state: boolean) => {
+  paused = state;
+  pausedGameText.visible = state;
+};
+
 window.addEventListener("keydown", (event) => {
   if (event.key === "p") {
     if (paused) {
-      paused = false;
-      pausedGameText.visible = false;
-      app.start();
+      setPauseGame(false);
     } else {
-      pausedGameText.visible = true;
-      paused = true;
-      app.ticker.addOnce(() => app.stop());
+      setPauseGame(true);
     }
+  }
+});
+
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "hidden") {
+    setPauseGame(true);
   }
 });
 
