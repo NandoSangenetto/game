@@ -13,8 +13,6 @@ const app = new Application({
 const world = new World(app);
 world.init();
 
-app.ticker.add(() => world.update());
-
 let paused = false;
 
 const pausedGameText = new Text("Jogo pausado", {
@@ -45,5 +43,11 @@ window.addEventListener("keydown", (event) => {
     }
   }
 });
+
+setInterval(() => {
+  if (!paused) {
+    world.update();
+  }
+}, 1000 / 60);
 
 document.body.appendChild(app.view);
